@@ -39,6 +39,7 @@ export function scoutLog(discordMessage, args) {
     }
 
     if(success[0].result == true){
+        logPoints(args, discordMessage, firstTime, secondTime);
         success = [{
             result: true,
             errorMessage: 'Sick you added points!'
@@ -46,4 +47,8 @@ export function scoutLog(discordMessage, args) {
     }
 
     return success;
+}
+
+function logPoints(args, discordMessage, firstTime, secondTime) { 
+    
 }

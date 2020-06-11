@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 
-export function addGuild(args) {
+export function addGuild(args, __dirname) {
     var guilds = [];
-    var success = []
+    var success = {}
 
     guilds = JSON.parse(fs.readFileSync(__dirname + '/json/guilds.txt', 'utf8'));
 
