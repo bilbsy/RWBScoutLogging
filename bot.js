@@ -28,7 +28,7 @@ client.on('message', discordMessage => {
                 success = setSpawnTimes(args, __dirname);
             break;
             case '!scoutLog':
-                success = scoutLog(discordMessage, args);
+                success = scoutLog(discordMessage, args, __dirname);
             break;
             default:
                 success.push({

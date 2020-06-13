@@ -6,7 +6,7 @@ export function addGuild(args, __dirname) {
 
     guilds = JSON.parse(fs.readFileSync(__dirname + '/json/guilds.txt', 'utf8'));
 
-    guilds.push({"guildCode": args[1], "guildName": args[2]})
+    guilds.push({"guildCode": args[1].replace(' ', ''), "guildName": args[2]})
 
     const jsonString = JSON.stringify(guilds)
     fs.writeFile('./json/guilds.txt', jsonString, err => {

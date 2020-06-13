@@ -1,1 +1,1 @@
-[{"guildCode":"GG ","guildName":"Globo Gym"},{"guildCode":"EF ","guildName":"EFFFFF"}]
+[{"guildCode":"GG","guildName":"Globo Gym"},{"guildCode":"EF","guildName":"EFFFFF"}]

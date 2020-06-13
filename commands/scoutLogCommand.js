@@ -1,9 +1,12 @@
-export function scoutLog(discordMessage, args) {
+import { getGuild } from './getGuildCommand.js';
+
+export function scoutLog(discordMessage, args, __dirname) {
     var success = [];
     var year = new Date().getFullYear();
     var datetime = args[2].split(' ');
     var date = datetime[0].split('-');
     var firstTime = new Date(date[1] + '-' + date[0] + '-' + year + ' ' + datetime[1]);
+    var guild = getGuild(discordMessage.member.displayName, __dirname);
 
     datetime = args[3].split(' ');
     date = datetime[0].split('-');
@@ -39,16 +42,74 @@ export function scoutLog(discordMessage, args) {
     }
 
     if(success[0].result == true){
-        logPoints(args, discordMessage, firstTime, secondTime);
+        var pointsLogged = logPoints(args, discordMessage, guild, firstTime, secondTime);
         success = [{
             result: true,
-            errorMessage: 'Sick you added points!'
+            errorMessage: 'Sick ' + discordMessage.member.displayName + ' added ' + pointsLogged +' points to ' + guild.guildName + '!'
         }];
     }
 
     return success;
 }
 
-function logPoints(args, discordMessage, firstTime, secondTime) { 
-    
+function logPoints(args, discordMessage, guild, firstTime, secondTime) {
+    var firstEightAmToday = new Date(firstTime.getFullYear(), firstTime.getMonth(), firstTime.getDate(), 8, 0, 0);
+    var secondEightAmToday = new Date(secondTime.getFullYear(), secondTime.getMonth(), secondTime.getDate(), 8, 0, 0);
+    var firstOneAmToday = new Date(firstTime.getFullYear(), firstTime.getMonth(), firstTime.getDate(), 1, 0, 0);
+    var secondOneAmToday = new Date(secondTime.getFullYear(), secondTime.getMonth(), secondTime.getDate(), 1, 0, 0);
+    var points = 0.0;
+
+    if(firstTime.getMinutes() < 30 || firstTime.getMinutes() == 0) {
+        firstTime = new Date(firstTime.getFullYear(), firstTime.getMonth(), firstTime.getDate(), firstTime.getHours(), 0, 0);
+    }
+    else {
+        firstTime = new Date(firstTime.getFullYear(), firstTime.getMonth(), firstTime.getDate(), firstTime.getHours() + 1, 0, 0);
+    }
+
+    if(secondTime.getMinutes() < 30 || secondTime.getMinutes() == 0) {
+        secondTime = new Date(secondTime.getFullYear(), secondTime.getMonth(), secondTime.getDate(), secondTime.getHours(), 0, 0);
+    }
+    else {
+        secondTime = new Date(secondTime.getFullYear(), secondTime.getMonth(), secondTime.getDate(), secondTime.getHours() + 1, 0, 0);
+    }
+
+    var firstHour = firstTime.getHours();
+    var secondHour = secondTime.getHours();
+
+    //0.5 points are assigned per hour scouted in peak times (8am - 1am)
+    //1 point is assigned per hour scouted in off peak times (1am - 8am)
+    //first time is between 1 and 8. And if secondtime is anytime for rest of day.
+    if(firstTime < firstEightAmToday) {
+        if(secondTime <= firstEightAmToday) {
+            if(firstHour == 0){
+                points -= 0.5;
+            }
+            //1am - 8am firstTime & secondTime
+            points += secondHour - firstHour;
+        } else {
+            //1am - 8am firstTime
+            //8am - 1am (next day) secondTime
+            if(secondHour <= 1)
+            {
+                points += 0.5;
+            }
+
+            points += (firstEightAmToday.getHours() - firstHour) + ((24 - secondHour - firstEightAmToday.getHours()) /2);
+            
+        }
+    }
+    else {
+        if(firstTime.getDate() == secondTime.getDate()) {
+            //8am - 12am firstTime & secondTime
+            points += (secondHour - firstHour)/2;
+        } else {
+            if(secondTime < secondEightAmToday){
+                points += (24 - firstHour) + (secondHour / 0.5);
+            } else {
+                points += (24 - firstHour + 7.5) + ((8 - secondHour) /2);
+            }
+        }
+    }
+
+    return points;
 }
