@@ -1,4 +1,5 @@
 import { getGuild } from './getGuildCommand.js';
+import * as fs from 'fs';
 
 export function scoutLog(discordMessage, args, __dirname) {
     var success = [];
@@ -7,6 +8,13 @@ export function scoutLog(discordMessage, args, __dirname) {
     var date = datetime[0].split('-');
     var firstTime = new Date(date[1] + '-' + date[0] + '-' + year + ' ' + datetime[1]);
     var guild = getGuild(discordMessage.member.displayName, __dirname);
+
+    if(guild == undefined) {
+        success.push({
+            result: false,
+            errorMessage: 'Your guild was not found. Please add your guild in your nickname. Eg. [GG] Bilbsy.'
+        });
+    }
 
     datetime = args[3].split(' ');
     date = datetime[0].split('-');
@@ -42,22 +50,32 @@ export function scoutLog(discordMessage, args, __dirname) {
     }
 
     if(success[0].result == true){
-        var pointsLogged = logPoints(args, discordMessage, guild, firstTime, secondTime);
-        success = [{
-            result: true,
-            errorMessage: 'Sick ' + discordMessage.member.displayName + ' added ' + pointsLogged +' points to ' + guild.guildName + '!'
-        }];
+        success = logPoints(args, discordMessage, guild, firstTime, secondTime, __dirname);
+        if(success[0].result == true){
+            success = [{
+                result: true,
+                errorMessage: 'Sick ' + discordMessage.member.displayName + ' added ' + pointsLogged +' points to ' + guild.guildName + '!'
+            }];
+        }
     }
 
     return success;
 }
 
-function logPoints(args, discordMessage, guild, firstTime, secondTime) {
+function logPoints(args, discordMessage, guild, firstTime, secondTime, __dirname) {
     var firstEightAmToday = new Date(firstTime.getFullYear(), firstTime.getMonth(), firstTime.getDate(), 8, 0, 0);
     var secondEightAmToday = new Date(secondTime.getFullYear(), secondTime.getMonth(), secondTime.getDate(), 8, 0, 0);
-    var firstOneAmToday = new Date(firstTime.getFullYear(), firstTime.getMonth(), firstTime.getDate(), 1, 0, 0);
-    var secondOneAmToday = new Date(secondTime.getFullYear(), secondTime.getMonth(), secondTime.getDate(), 1, 0, 0);
     var points = 0.0;
+    var success = [];
+
+    if(firstTime.getHours == secondTime.getHours && firstTime.getDate() == secondTime.getDate()) {
+        success.push({
+            result: false,
+            errorMessage: 'You don\'t seem to have done 1 full hour, this won\'t get you any points currently!'
+        });
+
+        return success;
+    }
 
     if(firstTime.getMinutes() < 30 || firstTime.getMinutes() == 0) {
         firstTime = new Date(firstTime.getFullYear(), firstTime.getMonth(), firstTime.getDate(), firstTime.getHours(), 0, 0);
@@ -95,7 +113,6 @@ function logPoints(args, discordMessage, guild, firstTime, secondTime) {
             }
 
             points += (firstEightAmToday.getHours() - firstHour) + ((24 - secondHour - firstEightAmToday.getHours()) /2);
-            
         }
     }
     else {
@@ -110,6 +127,59 @@ function logPoints(args, discordMessage, guild, firstTime, secondTime) {
             }
         }
     }
+    
+    var guilds = JSON.parse(fs.readFileSync(__dirname + '/json/guilds.txt', 'utf8'));
 
-    return points;
+    switch(args[1].toLowerCase()) {
+        case 'kazzak':
+            if(guilds.find(x => x.guildCode == guild.guildCode).points.kazzak == "") {
+                guilds.find(x => x.guildCode == guild.guildCode).points.kazzak = points;
+            } else {
+                var int = parseFloat(guilds.find(x => x.guildCode == guild.guildCode).points.kazzak, 10);
+                guilds.find(x => x.guildCode == guild.guildCode).points.kazzak = int + points;
+            }
+            break;
+        case 'azuregos':
+            if(guilds.find(x => x.guildCode == guild.guildCode).points.azuregos == "") {
+                guilds.find(x => x.guildCode == guild.guildCode).points.azuregos = points;
+            } else {
+                var int = parseFloat(guilds.find(x => x.guildCode == guild.guildCode).points.azuregos, 10);
+                guilds.find(x => x.guildCode == guild.guildCode).points.azuregos = int + points;
+            }
+            break;
+        case 'dragons':
+            if(guilds.find(x => x.guildCode == guild.guildCode).points.dragons == "") {
+                guilds.find(x => x.guildCode == guild.guildCode).points.dragons = points;
+            } else {
+                var int = parseFloat(guilds.find(x => x.guildCode == guild.guildCode).points.dragons, 10);
+                guilds.find(x => x.guildCode == guild.guildCode).points.dragons = int + points;
+            }
+            break;
+        default:
+            success.push({
+                result: false,
+                errorMessage: 'After all this time? You get the boss name wrong... Please check the name for example Green dragons are just \'dragons\'.'
+            });
+            break;
+    }
+
+    const jsonString = JSON.stringify(guilds);
+    fs.writeFile('./json/guilds.txt', jsonString, err => {
+        if (err) {
+            console.log('Error writing file', err);
+            success.push({
+                result: false,
+                errorMessage: 'Something went wrong uploading the file.'
+            });
+        } else {
+            console.log('Successfully wrote file')
+        }
+    })
+
+    success.push({
+        result: true,
+        errorMessage: points
+    });
+
+    return success;
 }

@@ -1,1 +1,1 @@
-[{"guildCode":"GG","guildName":"Globo Gym"},{"guildCode":"EF","guildName":"EFFFFF"}]
+[{"guildCode":"GG","guildName":"Globo Gym","points":{"kazzak":"","azuregos":10.5,"dragons":""}},{"guildCode":"DFB","guildName":"Dragonflights Bane","points":{"kazzak":0,"azuregos":0,"dragons":0.5}},{"guildCode":"UWU","guildName":"Owo Weeb Trash","points":{"kazzak":"","azuregos":"","dragons":""}}]
