@@ -9,11 +9,21 @@ export function addGuild(args, __dirname) {
 
     guilds.push({
         "guildCode": args[1].replace(' ', ''), 
-        "guildName": args[2], 
-        "points": {
-            "kazzak": "",
-            "azuregos": "",
-            "dragons": ""
+        "guildName": args[2],
+        "kazzak": {
+            "points": "",
+            "scoutingBonus": false,
+            "summoningBonus": false
+        },
+        "azuregos": {
+            "points": "",
+            "scoutingBonus": false,
+            "summoningBonus": false
+        },
+        "dragons": {
+            "points": "",
+            "scoutingBonus": false,
+            "summoningBonus": false
         }
     });
 

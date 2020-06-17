@@ -3,6 +3,8 @@ import { setSpawnTimes } from './commands/setSpawnTimesCommand.js';
 import { addGuild } from './commands/addGuildCommand.js';
 import { scoutStart } from './commands/scoutStartCommand.js';
 import { scoutEnd } from './commands/scoutEndCommand.js';
+import { summoner } from './commands/summonerCommand.js';
+import { bossKill } from './commands/bossKillCommand.js';
 import path from 'path';
 import * as auth from './config.js';
 import { Client } from 'discord.js';
@@ -40,6 +42,12 @@ client.on('message', discordMessage => {
                 case '!endScout':
                 case '!scoutEnd':
                     success = scoutEnd(discordMessage, args, __dirname);
+                break;
+                case '!summoner':
+                    success = summoner(discordMessage, args, __dirname);
+                break;
+                case '!bossKill':
+                    success = bossKill(discordMessage, args, __dirname);
                 break;
                 default:
                     success.push({
