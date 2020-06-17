@@ -1,13 +1,13 @@
 import { getGuild } from './getGuildCommand.js';
 import * as fs from 'fs';
 
-export function scoutLog(discordMessage, args, __dirname) {
+export function scoutLog(discordMessage, args, __dirname, guildClean) {
     var success = [];
     var year = new Date().getFullYear();
     var datetime = args[2].split(' ');
     var date = datetime[0].split('-');
     var firstTime = new Date(date[1] + '-' + date[0] + '-' + year + ' ' + datetime[1]);
-    var guild = getGuild(discordMessage.member.displayName, __dirname);
+    var guild = guildClean != undefined ? guildClean : getGuild(discordMessage.member.displayName, __dirname);
 
     if(guild == undefined) {
         success.push({
@@ -54,7 +54,7 @@ export function scoutLog(discordMessage, args, __dirname) {
         if(success[0].result == true){
             success = [{
                 result: true,
-                errorMessage: 'Sick ' + discordMessage.member.displayName + ' added ' + pointsLogged +' points to ' + guild.guildName + '!'
+                errorMessage: 'Sick ' + discordMessage.member.displayName + ' added ' + success[0].errorMessage +' points to ' + guild.guildName + '!'
             }];
         }
     }
@@ -67,15 +67,6 @@ function logPoints(args, discordMessage, guild, firstTime, secondTime, __dirname
     var secondEightAmToday = new Date(secondTime.getFullYear(), secondTime.getMonth(), secondTime.getDate(), 8, 0, 0);
     var points = 0.0;
     var success = [];
-
-    if(firstTime.getHours == secondTime.getHours && firstTime.getDate() == secondTime.getDate()) {
-        success.push({
-            result: false,
-            errorMessage: 'You don\'t seem to have done 1 full hour, this won\'t get you any points currently!'
-        });
-
-        return success;
-    }
 
     if(firstTime.getMinutes() < 30 || firstTime.getMinutes() == 0) {
         firstTime = new Date(firstTime.getFullYear(), firstTime.getMonth(), firstTime.getDate(), firstTime.getHours(), 0, 0);
@@ -132,27 +123,27 @@ function logPoints(args, discordMessage, guild, firstTime, secondTime, __dirname
 
     switch(args[1].toLowerCase()) {
         case 'kazzak':
-            if(guilds.find(x => x.guildCode == guild.guildCode).points.kazzak == "") {
-                guilds.find(x => x.guildCode == guild.guildCode).points.kazzak = points;
+            if(guilds.find(x => x.guildCode == guild.guildCode).kazzak.points == "") {
+                guilds.find(x => x.guildCode == guild.guildCode).kazzak.points = points;
             } else {
-                var int = parseFloat(guilds.find(x => x.guildCode == guild.guildCode).points.kazzak, 10);
-                guilds.find(x => x.guildCode == guild.guildCode).points.kazzak = int + points;
+                var int = parseFloat(guilds.find(x => x.guildCode == guild.guildCode).kazzak.points, 10);
+                guilds.find(x => x.guildCode == guild.guildCode).kazzak.points = int + points;
             }
             break;
         case 'azuregos':
-            if(guilds.find(x => x.guildCode == guild.guildCode).points.azuregos == "") {
-                guilds.find(x => x.guildCode == guild.guildCode).points.azuregos = points;
+            if(guilds.find(x => x.guildCode == guild.guildCode).azuregos.points == "") {
+                guilds.find(x => x.guildCode == guild.guildCode).azuregos.points = points;
             } else {
-                var int = parseFloat(guilds.find(x => x.guildCode == guild.guildCode).points.azuregos, 10);
-                guilds.find(x => x.guildCode == guild.guildCode).points.azuregos = int + points;
+                var int = parseFloat(guilds.find(x => x.guildCode == guild.guildCode).azuregos.points, 10);
+                guilds.find(x => x.guildCode == guild.guildCode).azuregos.points = int + points;
             }
             break;
         case 'dragons':
-            if(guilds.find(x => x.guildCode == guild.guildCode).points.dragons == "") {
-                guilds.find(x => x.guildCode == guild.guildCode).points.dragons = points;
+            if(guilds.find(x => x.guildCode == guild.guildCode).dragons.points == "") {
+                guilds.find(x => x.guildCode == guild.guildCode).dragons.points = points;
             } else {
-                var int = parseFloat(guilds.find(x => x.guildCode == guild.guildCode).points.dragons, 10);
-                guilds.find(x => x.guildCode == guild.guildCode).points.dragons = int + points;
+                var int = parseFloat(guilds.find(x => x.guildCode == guild.guildCode).dragons.points, 10);
+                guilds.find(x => x.guildCode == guild.guildCode).dragons.points = int + points;
             }
             break;
         default:
