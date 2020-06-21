@@ -5,6 +5,8 @@ import { scoutStart } from './commands/scoutStartCommand.js';
 import { scoutEnd } from './commands/scoutEndCommand.js';
 import { summoner } from './commands/summonerCommand.js';
 import { bossKill } from './commands/bossKillCommand.js';
+import { commandsowo } from './commands/helpCommand.js';
+import { test } from './commands/testingshit.js';
 import path from 'path';
 import * as auth from './config.js';
 import { Client } from 'discord.js';
@@ -20,9 +22,15 @@ client.login(auth.default.token);
 
 client.on('message', discordMessage => {
     try {
+        var cmd = "";
         var __dirname = path.resolve();
         if (discordMessage.content.substring(0, 1) == '!') {
-            var cmd = discordMessage.content.substr(0, discordMessage.content.indexOf(' '));
+            if(discordMessage.content.indexOf(' ') >= 0) {
+                cmd = discordMessage.content.substr(0, discordMessage.content.indexOf(' '));
+            }
+            else {
+                cmd = discordMessage.content;
+            }
             var args = discordMessage.content.substr(discordMessage.content.indexOf(' ')+1).replace(/\]/g, '').split('[');
             var success = [];
             switch(cmd) {
@@ -48,6 +56,12 @@ client.on('message', discordMessage => {
                 break;
                 case '!bossKill':
                     success = bossKill(discordMessage, args, __dirname);
+                break;
+                case '!commandsowo':
+                    success = commandsowo(discordMessage, args, __dirname);
+                break;
+                case '!test':
+                    success = test(discordMessage, args, __dirname);
                 break;
                 default:
                     success.push({
