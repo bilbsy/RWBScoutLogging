@@ -9,10 +9,9 @@ import { commandsowo } from './commands/helpCommand.js';
 import { test } from './commands/testingshit.js';
 import path from 'path';
 import * as auth from './config.js';
-import { Client } from 'discord.js';
+import * as Discord from 'discord.js';
 
-
-var client = new Client;
+var client = new Discord.Client();
 
 client.once('ready', () => {
 	console.log('Ready!');

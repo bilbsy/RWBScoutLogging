@@ -1,4 +1,4 @@
-import { MessageEmbed } from 'discord.js';
+import * as Discord from 'discord.js';
 import * as fs from 'fs';
 import { scoutEnd } from './scoutEndCommand.js';
 
@@ -92,25 +92,18 @@ export function bossKill(discordMessage, args, __dirname) {
 
         if(!pointsZero) {
             rollOutput.push({
-                name: guild.guildName,
-                value: previousPoints + '-' + points
+                name: ':game_die: ' + guild.guildName,
+                value: '```' +previousPoints + '-' + points + '```'
             });
         }
 
         previousPoints = points;
     });
 
-    const exampleEmbed = new MessageEmbed()
+    const exampleEmbed = new Discord.MessageEmbed()
 	.setColor('#0099ff')
 	.setTitle('Boss Kill Loot rolls 1-' + points)
-	//.setURL('https://discord.js.org/')
-	//.setDescription('Some description here')
-	//.setThumbnail('https://i.imgur.com/wSTFkRM.png')
-	.addFields(rollOutput)
-	//.addField('Inline field title', 'Some value here', true)
-	//.setImage('https://i.imgur.com/wSTFkRM.png')
-	//.setTimestamp()
-    //.setFooter('Some footer text here', 'https://i.imgur.com/wSTFkRM.png');
+	.addFields(rollOutput);
     
     success.push({
         result: true,
