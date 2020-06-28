@@ -23,7 +23,7 @@ client.on('message', discordMessage => {
     try {
         var cmd = "";
         var __dirname = path.resolve();
-        if (discordMessage.content.substring(0, 1) == '!') {
+        if (discordMessage.content.substring(0, 1) == '$') {
             if(discordMessage.content.indexOf(' ') >= 0) {
                 cmd = discordMessage.content.substr(0, discordMessage.content.indexOf(' '));
             }
@@ -32,34 +32,34 @@ client.on('message', discordMessage => {
             }
             var args = discordMessage.content.substr(discordMessage.content.indexOf(' ')+1).replace(/\]/g, '').split('[');
             var success = [];
-            switch(cmd) {
-                case '!addGuild':
+            switch(cmd.toLowerCase()) {
+                case '$addguild':
                     success = addGuild(args, __dirname);
                 break;
-                case '!setSpawnTimes':
+                case '$setspawntimes':
                     success = setSpawnTimes(args, __dirname);
                 break;
-                case '!scoutLog':
+                case '$scoutlog':
                     success = scoutLog(discordMessage, args, __dirname);
                 break;
-                case '!startScout':
-                case '!scoutStart':
+                case '$startscout':
+                case '$scoutstart':
                     success = scoutStart(discordMessage, args, __dirname);
                 break;
-                case '!endScout':
-                case '!scoutEnd':
+                case '$endscout':
+                case '$scoutend':
                     success = scoutEnd(discordMessage, args, __dirname);
                 break;
-                case '!summoner':
+                case '$summoner':
                     success = summoner(discordMessage, args, __dirname);
                 break;
-                case '!bossKill':
+                case '$bosskill':
                     success = bossKill(discordMessage, args, __dirname);
                 break;
-                case '!commandsowo':
+                case '$help':
                     success = commandsowo(discordMessage, args, __dirname);
                 break;
-                case '!test':
+                case '$test':
                     success = test(discordMessage, args, __dirname);
                 break;
                 default:
