@@ -5,7 +5,9 @@ import { scoutStart } from './commands/scoutStartCommand.js';
 import { scoutEnd } from './commands/scoutEndCommand.js';
 import { summoner } from './commands/summonerCommand.js';
 import { bossKill } from './commands/bossKillCommand.js';
-import { commandsowo } from './commands/helpCommand.js';
+import { help } from './commands/helpCommand.js';
+import { addRemovePoints } from './commands/removePointsCommand.js';
+import { viewPoints } from './commands/viewPointsCommand.js';
 import { test } from './commands/testingshit.js';
 import path from 'path';
 import * as auth from './config.js';
@@ -23,6 +25,7 @@ client.on('message', discordMessage => {
     try {
         var cmd = "";
         var __dirname = path.resolve();
+        var isAdmin = discordMessage.member.roles.cache.some(r => r.name == 'Officer' || r.name == 'Admin');
         if (discordMessage.content.substring(0, 1) == '$') {
             if(discordMessage.content.indexOf(' ') >= 0) {
                 cmd = discordMessage.content.substr(0, discordMessage.content.indexOf(' '));
@@ -57,10 +60,23 @@ client.on('message', discordMessage => {
                     success = bossKill(discordMessage, args, __dirname);
                 break;
                 case '$help':
-                    success = commandsowo(discordMessage, args, __dirname);
+                    success = help(discordMessage, args, __dirname);
                 break;
                 case '$test':
                     success = test(discordMessage, args, __dirname);
+                break;
+                case '$viewpoints':
+                    success = viewPoints(discordMessage, args, __dirname);
+                break;
+                case '$addremovepoints':
+                    if(isAdmin) {
+                        success = addRemovePoints(discordMessage, args, __dirname);
+                    } else {
+                        success.push({
+                            result: false,
+                            errorMessage: 'Sorry you don\'t have access to that command.'
+                        });
+                    }
                 break;
                 default:
                     success.push({

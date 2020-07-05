@@ -1,6 +1,6 @@
 import * as Discord from 'discord.js';
 
-export function commandsowo(disccordMessage, args) {
+export function help(disccordMessage, args) {
     var success = [];
     var embedArray = [];
 
@@ -38,6 +38,16 @@ export function commandsowo(disccordMessage, args) {
         .setColor('#FB290C')
         .setTitle('$bossKill [bossName] [raidSize]')
         .setDescription('*Declares a boss has been killed to then produce values for the Loot Master to roll.\n\nBoss names (kazzak, azuregos, dragons)*'))
+
+        embedArray.push(new Discord.MessageEmbed()
+        .setColor('#FB290C')
+        .setTitle('$viewPoints')
+        .setDescription('*Outputs all points accumulated across all guilds for this reset period.*'))
+
+        embedArray.push(new Discord.MessageEmbed()
+        .setColor('#FB290C')
+        .setTitle('$addremovepoints [guildCode] [bossName] [points {negative to remove, positive to add}]')
+        .setDescription('*Admin command to add or remove points retrospectively.*'))
 
 
        
