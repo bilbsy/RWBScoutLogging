@@ -45,10 +45,20 @@ export function scoutStart(discordMessage, args, __dirname) {
         return success;
     }
 
+    if (scoutLog.find(x => x.boss == args[1].replace(' ', '') && x.guildCode == guild.guildCode)) {
+        success.push({
+            result: false,
+            errorMessage: 'Your guild already has a scout on this boss, no points will be accumulated. End that scout first.'
+        });
+
+        return success;
+    }
+
     scoutLog.push({
         "boss": args[1].replace(' ', ''), 
         "startTime": start, 
-        "username": discordMessage.member.displayName
+        "username": discordMessage.member.displayName,
+        "guildCode": guild.guildCode
     });
 
     const jsonString = JSON.stringify(scoutLog);
