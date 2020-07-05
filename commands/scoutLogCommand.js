@@ -19,20 +19,12 @@ export function scoutLog(discordMessage, args, __dirname, guildClean) {
     datetime = args[3].split(' ');
     date = datetime[0].split('-');
     var secondTime = new Date(date[1] + '-' + date[0] + '-' + year + ' ' + datetime[1]);
-    var timeNow = new Date();
 
-    if (firstTime <= timeNow) {
-        if(success.length == 0){
-            success.push({
-                result: true,
-                errorMessage: ''
-            })
-        }
-    } else {
+    if(success.length == 0){
         success.push({
-            result: false,
-            errorMessage: 'First time is not before time now.'
-        });
+            result: true,
+            errorMessage: ''
+        })
     }
 
     if (firstTime <= secondTime) {
