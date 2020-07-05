@@ -123,6 +123,7 @@ function logPoints(args, discordMessage, guild, firstTime, secondTime, __dirname
 
     switch(args[1].toLowerCase()) {
         case 'kazzak':
+        case 'kazzak ':
             if(guilds.find(x => x.guildCode == guild.guildCode).kazzak.points == "") {
                 guilds.find(x => x.guildCode == guild.guildCode).kazzak.points = points;
             } else {
@@ -131,6 +132,7 @@ function logPoints(args, discordMessage, guild, firstTime, secondTime, __dirname
             }
             break;
         case 'azuregos':
+        case 'azuregos ':
             if(guilds.find(x => x.guildCode == guild.guildCode).azuregos.points == "") {
                 guilds.find(x => x.guildCode == guild.guildCode).azuregos.points = points;
             } else {
@@ -139,6 +141,7 @@ function logPoints(args, discordMessage, guild, firstTime, secondTime, __dirname
             }
             break;
         case 'dragons':
+        case 'dragons ':
             if(guilds.find(x => x.guildCode == guild.guildCode).dragons.points == "") {
                 guilds.find(x => x.guildCode == guild.guildCode).dragons.points = points;
             } else {
