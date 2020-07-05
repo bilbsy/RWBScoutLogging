@@ -20,13 +20,6 @@ export function scoutLog(discordMessage, args, __dirname, guildClean) {
     date = datetime[0].split('-');
     var secondTime = new Date(date[1] + '-' + date[0] + '-' + year + ' ' + datetime[1]);
 
-    if(success.length == 0){
-        success.push({
-            result: true,
-            errorMessage: ''
-        })
-    }
-
     if (firstTime <= secondTime) {
         if(success.length == 0){
             success.push({
