@@ -88,7 +88,7 @@ function logPoints(args, discordMessage, guild, firstTime, secondTime, __dirname
                 points += 0.5;
             }
 
-            points += (firstEightAmToday.getHours() - firstHour) + ((24 - secondHour - firstEightAmToday.getHours()) /2);
+            points += (firstEightAmToday.getHours() - firstHour) + ((secondHour - firstEightAmToday.getHours()) /2);
         }
     }
     else {
