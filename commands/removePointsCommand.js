@@ -5,7 +5,7 @@ export function addRemovePoints(discordMessage, args, __dirname) {
     var success = [];
     var guildCode = args[1].replace(' ', '');
     var bossName = args[2].replace(' ', '');
-    var pointsRemoval = parseInt(args[3].replace(' ', ''), 10);
+    var pointsRemoval = parseFloat(args[3].replace(' ', ''), 10);
     var guilds = JSON.parse(fs.readFileSync(__dirname + '/json/guilds.txt', 'utf8'));
 
     if(bossName == undefined || "") {

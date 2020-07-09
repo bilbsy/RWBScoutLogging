@@ -4,6 +4,7 @@ import { addGuild } from './commands/addGuildCommand.js';
 import { scoutStart } from './commands/scoutStartCommand.js';
 import { scoutEnd } from './commands/scoutEndCommand.js';
 import { summoner } from './commands/summonerCommand.js';
+import { scoutBonus } from './commands/scoutBonusCommand.js';
 import { bossKill } from './commands/bossKillCommand.js';
 import { help } from './commands/helpCommand.js';
 import { addRemovePoints } from './commands/removePointsCommand.js';
@@ -55,6 +56,9 @@ client.on('message', discordMessage => {
                 break;
                 case '$summoner':
                     success = summoner(discordMessage, args, __dirname);
+                break;
+                case '$scoutbonus':
+                    success = scoutBonus(discordMessage, args, __dirname);
                 break;
                 case '$bosskill':
                     success = bossKill(discordMessage, args, __dirname);

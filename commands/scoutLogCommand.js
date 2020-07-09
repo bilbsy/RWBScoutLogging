@@ -67,42 +67,7 @@ function logPoints(args, discordMessage, guild, firstTime, secondTime, __dirname
         secondTime = new Date(secondTime.getFullYear(), secondTime.getMonth(), secondTime.getDate(), secondTime.getHours() + 1, 0, 0);
     }
 
-    var firstHour = firstTime.getHours();
-    var secondHour = secondTime.getHours();
-
-    //0.5 points are assigned per hour scouted in peak times (8am - 1am)
-    //1 point is assigned per hour scouted in off peak times (1am - 8am)
-    //first time is between 1 and 8. And if secondtime is anytime for rest of day.
-    if(firstTime < firstEightAmToday) {
-        if(secondTime <= firstEightAmToday) {
-            if(firstHour == 0){
-                points -= 0.5;
-            }
-            //1am - 8am firstTime & secondTime
-            points += secondHour - firstHour;
-        } else {
-            //1am - 8am firstTime
-            //8am - 1am (next day) secondTime
-            if(secondHour <= 1)
-            {
-                points += 0.5;
-            }
-
-            points += (firstEightAmToday.getHours() - firstHour) + ((24 - secondHour - firstEightAmToday.getHours()) /2);
-        }
-    }
-    else {
-        if(firstTime.getDate() == secondTime.getDate()) {
-            //8am - 12am firstTime & secondTime
-            points += (secondHour - firstHour)/2;
-        } else {
-            if(secondTime < secondEightAmToday){
-                points += (24 - firstHour) + (secondHour / 0.5);
-            } else {
-                points += (24 - firstHour + 7.5) + ((8 - secondHour) /2);
-            }
-        }
-    }
+    points = getPoints(firstTime, secondTime);
     
     var guilds = JSON.parse(fs.readFileSync(__dirname + '/json/guilds.txt', 'utf8'));
 
@@ -161,4 +126,91 @@ function logPoints(args, discordMessage, guild, firstTime, secondTime, __dirname
     });
 
     return success;
+}
+
+function getPoints(firstTime, secondTime) {
+    var ptsOffPeak = 1;
+    var ptsOnPeak = 0.5;
+    var offPeakStart = 1;
+    var offPeakEnd = 8;
+            
+    if (firstTime.getDate() == secondTime.getDate()) {
+        if (firstTime.getHours() >= offPeakEnd && secondTime.getHours() >= offPeakEnd) 
+        {
+            // calculates points for scouting after offPeakEndam
+            points += (secondTime.getHours() - firstTime) * ptsOnPeak;
+        }
+        else if (firstTime.getHours() < offPeakStart) 
+        {
+            // calculates pts for before offPeakStart am	
+            points += (offPeakStart - firstTime.getHours()) * ptsOnPeak;
+            
+            if (secondTime.getHours() > offPeakStart && secondTime.getHours() <= offPeakEnd) 
+            {
+                // calculates pts for finishing after offPeakStartam and before offPeakEndam
+                points += (secondTime.getHours() - offPeakStart) * ptsOffPeak;
+            } 
+            else if (secondTime.getHours() > offPeakEnd) 
+            {
+                // calculates pts for finishing after offPeakEndam
+                points += (secondTime.getHours() - offPeakEnd) * ptsOnPeak;
+                points += (offPeakEnd - offPeakStart) * ptsOffPeak;
+            } 
+            else 
+            {
+                // assumes you finished scouting before offPeakStartam and thus applies a 
+                // negative value
+                points += (secondTime.getHours() - offPeakStart) * ptsOnPeak;
+            }
+        } 
+        else if (firstTime.getHours() > offPeakStart) 
+        {
+            // calculates pts if starting after offPeakStartam and before offPeakEndam
+            if (secondTime.getHours() <= offPeakEnd) 
+            {
+                // calculates pts for finishing after offPeakStartam and before offPeakEndam
+                points += (secondTime.getHours() - firstTime.getHours()) * ptsOffPeak;
+            } 
+            else if (secondTime.getHours() > offPeakEnd) 
+            {
+                // calculates pts for finishing after offPeakEndam
+                points += (secondTime.getHours() - offPeakEnd) * ptsOnPeak;
+                points += (secondTime.getHours() - firstTime.getHours()) * ptsOffPeak;
+            }
+        }
+    } 
+    else
+    {
+        if (firstTime.getHours() < offPeakStart) 
+        {
+            points += (offPeakStart - firstTime.getHours()) * ptsOnPeak;
+            points += (offPeakEnd - offPeakStart) * ptsOffPeak;
+            points += (24 - offPeakEnd) * ptsOnPeak;
+        }
+        else if (firstTime.getHours() < offPeakEnd) 
+        {
+            points += (offPeakEnd - offPeakStart) * ptsOffPeak;
+            points += (24 - offPeakEnd) * ptsOnPeak;
+        } else {
+            points += (24 - firstTime.getHours()) * ptsOnPeak;
+        }
+
+        if (secondTime.getHours() <= offPeakStart) 
+        {
+            points += secondTime.getHours() * ptsOnPeak;
+        } 
+        else if (secondTime.getHours() <= offPeakEnd) 
+        {
+            points += offPeakStart * ptsOnPeak;
+            points += (secondTime.getHours() - offPeakStart) * ptsOffPeak;
+        } 
+        else 
+        {
+            points += offPeakStart * ptsOnPeak;
+            points += (offPeakEnd - offPeakStart) * ptsOffPeak;
+            points += (secondTime.getHours() - offPeakEnd) * ptsOnPeak;
+        }
+    }
+
+    return points;
 }

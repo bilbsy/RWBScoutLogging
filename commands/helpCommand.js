@@ -35,6 +35,11 @@ export function help(disccordMessage, args) {
         .setDescription('*Declares you are a summoner at a world boss at the time of spawn.\n\nBoss names (kazzak, azuregos, dragons)*'))
 
         embedArray.push(new Discord.MessageEmbed()
+        .setColor('#FB990C')
+        .setTitle('$scoutBonus [bossName]')
+        .setDescription('*Declares you are a scouter at a world boss at the time of spawn.\n\nBoss names (kazzak, azuregos, dragons)*'))
+
+        embedArray.push(new Discord.MessageEmbed()
         .setColor('#FB290C')
         .setTitle('$bossKill [bossName] [raidSize]')
         .setDescription('*Declares a boss has been killed to then produce values for the Loot Master to roll.\n\nBoss names (kazzak, azuregos, dragons)*'))

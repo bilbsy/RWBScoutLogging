@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 
-export function summoner(discordMessage, args, __dirname) {
+export function scoutBonus(discordMessage, args, __dirname) {
     var guilds = [];
     var guildCode = (discordMessage.member.displayName.split(']')[0]).replace('[', '').split(' ')[0];
     var file = fs.readFileSync(__dirname + '/json/guilds.txt', 'utf8');
@@ -45,7 +45,7 @@ export function summoner(discordMessage, args, __dirname) {
 
     success.push({
         result: true,
-        errorMessage: 'Summoner bonus added to: ' + guild.guildName
+        errorMessage: 'Scouting bonus added to: ' + guild.guildName
     });
 
     return success;

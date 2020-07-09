@@ -36,12 +36,6 @@ export function bossKill(discordMessage, args, __dirname) {
         var pointsZero = false;
         success = scoutEnd(discordMessage, args, __dirname, guild);
 
-        file = fs.readFileSync(__dirname + '/json/guilds.txt', 'utf8');
-    
-        if(file != "") {
-            guilds = JSON.parse(file);
-        }
-
         guild = guilds.find(x => x.guildCode == guild.guildCode)
 
         switch(args[1].toLowerCase().replace(' ', '')) {
@@ -98,12 +92,49 @@ export function bossKill(discordMessage, args, __dirname) {
         }
 
         previousPoints = points;
+
+        switch(args[1].toLowerCase().replace(' ', '')) {
+            case 'kazzak':
+                guild.kazzak.points = '0';
+                guild.kazzak.summoningBonus = false;
+                guild.kazzak.scoutingBonus = false;
+                break;
+            case 'azuregos':
+                guild.azuregos.points = '0';
+                guild.azuregos.summoningBonus = false;
+                guild.azuregos.scoutingBonus = false;
+                break;
+            case 'dragons':
+                guild.dragons.points = '0';
+                guild.dragons.summoningBonus = false;
+                guild.dragons.scoutingBonus = false;
+                break;
+            default:
+                success.push({
+                    result: false,
+                    errorMessage: 'After all this time? You get the boss name wrong... Please check the name for example Green dragons are just \'dragons\'.'
+                });
+                break;
+        }
     });
 
     const exampleEmbed = new Discord.MessageEmbed()
 	.setColor('#0099ff')
 	.setTitle('Boss Kill Loot rolls 1-' + points)
 	.addFields(rollOutput);
+    
+    const jsonString = JSON.stringify(guilds);
+    fs.writeFile('./json/guilds.txt', jsonString, err => {
+        if (err) {
+            console.log('Error writing file', err);
+            success.push({
+                result: false,
+                errorMessage: 'Something went wrong uploading the file.'
+            });
+        } else {
+            console.log('Successfully wrote file')
+        }
+    });
     
     success.push({
         result: true,
