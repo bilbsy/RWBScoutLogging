@@ -23,7 +23,7 @@ export function viewPoints(disccordMessage, args, __dirname) {
     });
 
     if(guildOutput.length == 0){
-        guildOutput.push({ name: 'No points have been acrewed for any bosses this session.' })
+        guildOutput.push({ name: 'No points have been acrewed for any bosses this session.', value: '' })
     }
 
     const exampleEmbed = new Discord.MessageEmbed()
