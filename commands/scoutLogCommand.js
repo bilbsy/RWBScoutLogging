@@ -133,6 +133,7 @@ function getPoints(firstTime, secondTime) {
     var ptsOnPeak = 0.5;
     var offPeakStart = 1;
     var offPeakEnd = 8;
+    var points = 0;
             
     if (firstTime.getDate() == secondTime.getDate()) {
         if (firstTime.getHours() >= offPeakEnd && secondTime.getHours() >= offPeakEnd) 
