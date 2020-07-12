@@ -36,7 +36,24 @@ export function scoutEnd(discordMessage, args, __dirname, guildClean) {
             var startLog = startLogs[i];
 
             if(args >= 3) {
-                args.push(args[2]);
+                var dateCheck = args[2].split(' ');
+
+                if (args[2].includes(':')){
+        
+                    if(dateCheck.length == 2) {
+                        args.push(args[2]);
+                    }
+                    else {
+                        args.push(('0' + date.getDate()).slice(-2) + '-' + ('0' + (date.getMonth()+1)).slice(-2) + ' ' + args[2]);
+                    }
+                } else {
+                    success.push({
+                        result: false,
+                        errorMessage: 'The time is incorrectly formatted. Please format like HH:mm or DD-MM HH:mm.'
+                    });
+        
+                    return success;
+                }
                 args[2] = startLog.startTime;
             }
             else {

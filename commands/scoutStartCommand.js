@@ -19,7 +19,24 @@ export function scoutStart(discordMessage, args, __dirname) {
     }
 
     if(args.length >= 3) {
-        start = args[2];
+        var dateCheck = args[2].split(' ');
+
+        if (args[2].includes(':')){
+
+            if(dateCheck.length == 2) {
+                start = args[2];
+            }
+            else {
+                start = ('0' + date.getDate()).slice(-2) + '-' + ('0' + (date.getMonth()+1)).slice(-2) + ' ' + args[2];
+            }
+        } else {
+            success.push({
+                result: false,
+                errorMessage: 'The time is incorrectly formatted. Please format like HH:mm or DD-MM HH:mm.'
+            });
+
+            return success;
+        }
     } else {
         start = ('0' + date.getDate()).slice(-2) + '-' + ('0' + (date.getMonth()+1)).slice(-2) + ' ' + date.getHours() + ':' + date.getMinutes();
     }

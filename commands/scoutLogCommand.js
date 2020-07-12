@@ -139,7 +139,7 @@ function getPoints(firstTime, secondTime) {
         if (firstTime.getHours() >= offPeakEnd && secondTime.getHours() >= offPeakEnd) 
         {
             // calculates points for scouting after offPeakEndam
-            points += (secondTime.getHours() - firstTime) * ptsOnPeak;
+            points += (secondTime.getHours() - firstTime.getHours()) * ptsOnPeak;
         }
         else if (firstTime.getHours() < offPeakStart) 
         {
