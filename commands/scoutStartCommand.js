@@ -1,10 +1,11 @@
 import { getGuild } from './getGuildCommand.js';
+import moment from 'moment-timezone/moment-timezone.js';
 import * as fs from 'fs';
 
 export function scoutStart(discordMessage, args, __dirname) {
     var success = [];
     var start = "";
-    var date = new Date();
+    var date = moment().tz('Australia/Sydney');
     args[1] = args[1].replace(' ', '');
 
     var guild = getGuild(discordMessage.member.displayName, __dirname);
@@ -27,7 +28,7 @@ export function scoutStart(discordMessage, args, __dirname) {
                 start = args[2];
             }
             else {
-                start = ('0' + date.getDate()).slice(-2) + '-' + ('0' + (date.getMonth()+1)).slice(-2) + ' ' + args[2];
+                start = ('0' + date.date()).slice(-2) + '-' + ('0' + (date.month()+1)).slice(-2) + ' ' + args[2];
             }
         } else {
             success.push({
@@ -38,7 +39,7 @@ export function scoutStart(discordMessage, args, __dirname) {
             return success;
         }
     } else {
-        start = ('0' + date.getDate()).slice(-2) + '-' + ('0' + (date.getMonth()+1)).slice(-2) + ' ' + date.getHours() + ':' + date.getMinutes();
+        start = ('0' + date.date()).slice(-2) + '-' + ('0' + (date.month()+1)).slice(-2) + ' ' + ('0' + (date.hours()+1)).slice(-2) + ':' + ('0' + (date.minutes()+1)).slice(-2);
     }
 
     if(args[1].toLowerCase() != "kazzak" && args[1].toLowerCase() != "azuregos" && args[1].toLowerCase() != "dragons"){

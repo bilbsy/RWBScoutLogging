@@ -4,3 +4,5 @@ auth.json
 config.js
 
 *.txt
+
+node_modules/

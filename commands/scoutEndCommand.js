@@ -1,11 +1,12 @@
 import * as fs from 'fs';
 import { scoutLog } from './scoutLogCommand.js';
+import moment from 'moment-timezone/moment-timezone.js';
 
 export function scoutEnd(discordMessage, args, __dirname, guildClean) {
     var success = [];
     var scoutLogFile = fs.readFileSync(__dirname + '/json/scoutLog.txt', 'utf8') == "" ? []
     : JSON.parse(fs.readFileSync(__dirname + '/json/scoutLog.txt', 'utf8'));
-    var date = new Date();
+    var date = moment().tz('Australia/Sydney');
     var startLogs = []
     
     startLogs.push(guildClean != undefined ? scoutLogFile.find(x => x.username.includes("[" + guildClean.guildCode + "]") && x.boss == args[1].replace(' ', '')) 
@@ -44,7 +45,7 @@ export function scoutEnd(discordMessage, args, __dirname, guildClean) {
                         args.push(args[2]);
                     }
                     else {
-                        args.push(('0' + date.getDate()).slice(-2) + '-' + ('0' + (date.getMonth()+1)).slice(-2) + ' ' + args[2]);
+                        args.push(('0' + date.date()).slice(-2) + '-' + ('0' + (date.month()+1)).slice(-2) + ' ' + args[2]);
                     }
                 } else {
                     success.push({
@@ -58,7 +59,7 @@ export function scoutEnd(discordMessage, args, __dirname, guildClean) {
             }
             else {
                 args[2] = startLog.startTime;
-                args.push(('0' + date.getDate()).slice(-2) + '-' + ('0' + (date.getMonth()+1)).slice(-2) + ' ' + date.getHours() + ':' + date.getMinutes());
+                args.push(('0' + date.date()).slice(-2) + '-' + ('0' + (date.month()+1)).slice(-2) + ' ' + ('0' + (date.hours()+1)).slice(-2) + ':' + ('0' + (date.minutes()+1)).slice(-2));
             }
 
             var success = scoutLog(discordMessage, args, __dirname, guildClean);
