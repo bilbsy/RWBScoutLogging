@@ -40,7 +40,7 @@ export function bossKill(discordMessage, args, __dirname) {
 
         switch(args[1].toLowerCase().replace(' ', '')) {
             case 'kazzak':
-                if(guild.kazzak.points != "" || guild.kazzak.points != 0){
+                if(guild.kazzak.points != "" && guild.kazzak.points != 0 && guild.kazzak.points != '0'){
                     points += Math.floor(guild.kazzak.points);
                 }
                 else {
@@ -51,7 +51,7 @@ export function bossKill(discordMessage, args, __dirname) {
                 }
                 break;
             case 'azuregos':
-                if(guild.azuregos.points != "" || guild.azuregos.points != 0){
+                if(guild.azuregos.points != "" && guild.azuregos.points != 0 && guild.kazzak.points != '0'){
                     points += Math.floor(guild.azuregos.points);
                 }
                 else {
@@ -63,7 +63,7 @@ export function bossKill(discordMessage, args, __dirname) {
                 guild.azuregos.summoningBonus = true;
                 break;
             case 'dragons':
-                if(guild.dragons.points != "" || guild.dragons.points != 0){
+                if(guild.dragons.points != "" && guild.dragons.points != 0 && guild.kazzak.points != '0'){
                     points += Math.floor(guild.dragons.points, 10);
                 }
                 else {
@@ -95,17 +95,17 @@ export function bossKill(discordMessage, args, __dirname) {
 
         switch(args[1].toLowerCase().replace(' ', '')) {
             case 'kazzak':
-                guild.kazzak.points = '0';
+                guild.kazzak.points = 0;
                 guild.kazzak.summoningBonus = false;
                 guild.kazzak.scoutingBonus = false;
                 break;
             case 'azuregos':
-                guild.azuregos.points = '0';
+                guild.azuregos.points = 0;
                 guild.azuregos.summoningBonus = false;
                 guild.azuregos.scoutingBonus = false;
                 break;
             case 'dragons':
-                guild.dragons.points = '0';
+                guild.dragons.points = 0;
                 guild.dragons.summoningBonus = false;
                 guild.dragons.scoutingBonus = false;
                 break;

@@ -53,7 +53,7 @@ export function addRemovePoints(discordMessage, args, __dirname) {
         default:
             success.push({
                 result: false,
-                errorMessage: 'After all this time? You get the boss name wrong... Please check the name for example Green dragons are just \'dragons\'.'
+                errorMessage: 'Boss name is incorrect. Or you have input values in incorrect order (guildCode then bossName).'
             });
             break;
     }
@@ -71,10 +71,12 @@ export function addRemovePoints(discordMessage, args, __dirname) {
         }
     });
 
-    success.push({
-        result: true,
-        errorMessage: 'Points have been added or removed. (' + pointsRemoval + ')'
-    });
+    if (success.length == 0){
+        success.push({
+            result: true,
+            errorMessage: 'Points have been added or removed. (' + pointsRemoval + ')'
+        });
+    }
 
     return success;
 }

@@ -110,6 +110,5 @@ export function scoutStart(discordMessage, args, __dirname) {
         });
     }
 
-
     return success;
 }
