@@ -63,6 +63,10 @@ export function bossKill(discordMessage, args, __dirname) {
                 guild.azuregos.summoningBonus = true;
                 break;
             case 'dragons':
+            case 'ysondre':
+            case 'taerar':
+            case 'lethon':
+            case 'emeriss':
                 if(guild.dragons.points != "" && guild.dragons.points != 0 && guild.kazzak.points != '0'){
                     points += Math.floor(guild.dragons.points, 10);
                 }
@@ -105,6 +109,10 @@ export function bossKill(discordMessage, args, __dirname) {
                 guild.azuregos.scoutingBonus = false;
                 break;
             case 'dragons':
+                case 'ysondre':
+                case 'taerar':
+                case 'lethon':
+                case 'emeriss':
                 guild.dragons.points = 0;
                 guild.dragons.summoningBonus = false;
                 guild.dragons.scoutingBonus = false;
