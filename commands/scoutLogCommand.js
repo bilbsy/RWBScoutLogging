@@ -176,7 +176,7 @@ function getPoints(firstTime, secondTime) {
             {
                 // calculates pts for finishing after offPeakEndam
                 points += (secondTime.getHours() - offPeakEnd) * ptsOnPeak;
-                points += (secondTime.getHours() - firstTime.getHours()) * ptsOffPeak;
+                points += (offPeakEnd - firstTime.getHours()) * ptsOffPeak;
             }
         }
     } 
