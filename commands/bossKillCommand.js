@@ -51,7 +51,7 @@ export function bossKill(discordMessage, args, __dirname) {
                 }
                 break;
             case 'azuregos':
-                if(guild.azuregos.points != "" && guild.azuregos.points != 0 && guild.kazzak.points != '0'){
+                if(guild.azuregos.points != "" && guild.azuregos.points != 0 && guild.azuregos.points != '0'){
                     points += Math.floor(guild.azuregos.points);
                 }
                 else {
@@ -67,7 +67,7 @@ export function bossKill(discordMessage, args, __dirname) {
             case 'taerar':
             case 'lethon':
             case 'emeriss':
-                if(guild.dragons.points != "" && guild.dragons.points != 0 && guild.kazzak.points != '0'){
+                if(guild.dragons.points != "" && guild.dragons.points != 0 && guild.dragons.points != '0'){
                     points += Math.floor(guild.dragons.points, 10);
                 }
                 else {
