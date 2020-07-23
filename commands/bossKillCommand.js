@@ -11,6 +11,8 @@ export function bossKill(discordMessage, args, __dirname) {
         guilds = JSON.parse(file);
     }
 
+    success = viewPoints(discordMessage, args, __dirname);
+
     var rollOutput = [];
     var points = 0;
     var previousPoints = 0;
@@ -34,7 +36,7 @@ export function bossKill(discordMessage, args, __dirname) {
 
     guilds.forEach(guild => {
         var pointsZero = false;
-        success = scoutEnd(discordMessage, args, __dirname, guild);
+        success.push(scoutEnd(discordMessage, args, __dirname, guild));
 
         guild = guilds.find(x => x.guildCode == guild.guildCode)
 
@@ -96,34 +98,6 @@ export function bossKill(discordMessage, args, __dirname) {
         }
 
         previousPoints = points;
-
-        switch(args[1].toLowerCase().replace(' ', '')) {
-            case 'kazzak':
-                guild.kazzak.points = 0;
-                guild.kazzak.summoningBonus = false;
-                guild.kazzak.scoutingBonus = false;
-                break;
-            case 'azuregos':
-                guild.azuregos.points = 0;
-                guild.azuregos.summoningBonus = false;
-                guild.azuregos.scoutingBonus = false;
-                break;
-            case 'dragons':
-                case 'ysondre':
-                case 'taerar':
-                case 'lethon':
-                case 'emeriss':
-                guild.dragons.points = 0;
-                guild.dragons.summoningBonus = false;
-                guild.dragons.scoutingBonus = false;
-                break;
-            default:
-                success.push({
-                    result: false,
-                    errorMessage: 'After all this time? You get the boss name wrong... Please check the name for example Green dragons are just \'dragons\'.'
-                });
-                break;
-        }
     });
 
     const exampleEmbed = new Discord.MessageEmbed()

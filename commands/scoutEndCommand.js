@@ -83,11 +83,6 @@ export function scoutEnd(discordMessage, args, __dirname, guildClean) {
                         console.log('Successfully wrote file')
                     }
                 });
-
-                success.push({
-                    result: true,
-                    errorMessage: 'And now your watch has ended.'
-                });
             }
         }
     }

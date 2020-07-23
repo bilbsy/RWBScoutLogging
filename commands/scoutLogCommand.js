@@ -41,6 +41,8 @@ export function scoutLog(discordMessage, args, __dirname, guildClean) {
                 result: true,
                 errorMessage: 'Sick ' + discordMessage.member.displayName + ' added ' + success[0].errorMessage +' points to ' + guild.guildName + '!'
             }];
+                        
+            discordMessage.delete();
         }
     }
 

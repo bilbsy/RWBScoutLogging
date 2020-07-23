@@ -65,6 +65,12 @@ export function help(disccordMessage, args) {
                 .setTitle('$addremovepoints [guildCode] [bossName] [points {negative to remove, positive to add}]')
                 .setDescription('*Admin command to add or remove points retrospectively.*'));
         break;
+        case 'resetbosspoints':
+            embedArray.push(new Discord.MessageEmbed()
+                .setColor('#FB290C')
+                .setTitle('$resetbosspoints [bossName]')
+                .setDescription('*Resets boss points for all guild. Admin only command.*'));
+        break;
         case undefined:
             embedArray.push(new Discord.MessageEmbed()
                 .setColor('#0099ff')
@@ -80,6 +86,7 @@ export function help(disccordMessage, args) {
                     { name: '$addremovepoints [guildCode] [bossName] [points]', value: 'Admin command to add or remove points retrospectively.'},
                     { name: '$addGuild [guildNickname][guildName]', value: 'Adds a new guild to be used in scouting.'},
                     { name: '$setSpawnTimes [bossName] [spawnTime]', value: 'Sets the time a spawn window for any given boss opens.'},
+                    { name: '$resetbosspoints [bossName]', value: 'Resets boss points for all guild. Admin only command.'},
                 )
             );
         break;

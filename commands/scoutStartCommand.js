@@ -92,23 +92,10 @@ export function scoutStart(discordMessage, args, __dirname) {
         }
     });
 
-    if (args[1].toLowerCase().replace(' ', '') == "kazzak"){
-        success.push({
-            result: true,
-            errorMessage: 'YOU ARE NOT PREPARED!!... You need a summoner too!. (Scout kazzak start logged)'
-        });
-    }
-    else if (args[1].toLowerCase().replace(' ', '') == "dragons") {
-        success.push({
-            result: true,
-            errorMessage: 'What\'s life without a few dragons?. (Scout dragons start logged)'
-        });
-    } else {
-        success.push({
-            result: true,
-            errorMessage: 'It simply isn\'t an adventure worth telling if there aren\'t any dragons. (Scout Azuregos start logged)'
-        });
-    }
+    success.push({
+        result: true,
+        errorMessage: ''
+    });
 
     return success;
 }

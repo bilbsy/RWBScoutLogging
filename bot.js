@@ -9,6 +9,7 @@ import { bossKill } from './commands/bossKillCommand.js';
 import { help } from './commands/helpCommand.js';
 import { addRemovePoints } from './commands/removePointsCommand.js';
 import { viewPoints } from './commands/viewPointsCommand.js';
+import { resetBossPoints } from './commands/resetBossPointsCommand.js';
 import { test } from './commands/testingshit.js';
 import path from 'path';
 import * as auth from './config.js';
@@ -25,6 +26,7 @@ client.login(auth.default.token);
 client.on('message', discordMessage => {
     try {
         var cmd = "";
+        var messageDeleted = false;
         var __dirname = path.resolve();
         var isAdmin = discordMessage.member.roles.cache.some(r => r.name == 'Officer' || r.name == 'Admin');
         if (discordMessage.content.substring(0, 1) == '$') {
@@ -69,12 +71,24 @@ client.on('message', discordMessage => {
                 case '$test':
                     success = test(discordMessage, args, __dirname);
                 break;
+                case '$resetbosspoints':
+                    if(isAdmin) {
+                        success = resetBossPoints(discordMessage, args, __dirname);
+                    } else {
+                        success.push({
+                            result: false,
+                            errorMessage: 'Sorry you don\'t have access to that command.'
+                        });
+                    }
+                break;
                 case '$viewpoints':
                     success = viewPoints(discordMessage, args, __dirname);
+                    messageDeleted = true;
                 break;
                 case '$addremovepoints':
                     if(isAdmin) {
                         success = addRemovePoints(discordMessage, args, __dirname);
+                        messageDeleted = true;
                     } else {
                         success.push({
                             result: false,
@@ -92,7 +106,14 @@ client.on('message', discordMessage => {
 
             if(success.length != 0) {
                 for(var i = 1; i <= success.length; i++){
-                    discordMessage.channel.send(success[i-1].errorMessage);
+                    if(success[i-1].errorMessage != '') {
+                        discordMessage.channel.send(success[i-1].errorMessage);
+                    }
+                    else {
+                        if(messageDeleted != true) {
+                            discordMessage.react('✅');
+                        }
+                    }
                 }
             }
         }

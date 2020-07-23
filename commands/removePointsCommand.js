@@ -76,6 +76,8 @@ export function addRemovePoints(discordMessage, args, __dirname) {
             result: true,
             errorMessage: 'Points have been added or removed. (' + pointsRemoval + ')'
         });
+        
+        discordMessage.delete();
     }
 
     return success;

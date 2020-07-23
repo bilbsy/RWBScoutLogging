@@ -21,15 +21,19 @@ export function viewPoints(disccordMessage, args, __dirname) {
             '   Dragons: ' + (guild.dragons.points == "" ? 0 : guild.dragons.points) + '```'               
         });
     });
-
+    const exampleEmbed = new Discord.MessageEmbed();
     if(guildOutput.length == 0){
-        guildOutput.push({ name: 'No points have been acrewed for any bosses this session.', value: '' })
+        exampleEmbed
+            .setColor('#0099ff')
+            .setTitle('No points have been acrewed for any bosses this session.');
+    } else {
+        exampleEmbed
+            .setColor('#0099ff')
+            .addFields(guildOutput);
     }
+    
+    disccordMessage.delete();
 
-    const exampleEmbed = new Discord.MessageEmbed()
-    .setColor('#0099ff')
-    .addFields(guildOutput);
-            
     success.push({
         result: true,
         errorMessage: exampleEmbed
