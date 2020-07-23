@@ -25,7 +25,7 @@ export function viewPoints(disccordMessage, args, __dirname) {
     if(guildOutput.length == 0){
         exampleEmbed
             .setColor('#0099ff')
-            .setTitle('No points have been acrewed for any bosses this session.');
+            .setTitle('No points have been accrued for any bosses this session.');
     } else {
         exampleEmbed
             .setColor('#0099ff')

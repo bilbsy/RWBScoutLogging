@@ -35,6 +35,7 @@ export function resetBossPoints(discordMessage, args, __dirname) {
                 guild.dragons.points = 0;
                 guild.azuregos.points = 0;
                 guild.kazzak.points = 0;
+            break;
             default:
                 success.push({
                     result: false,
