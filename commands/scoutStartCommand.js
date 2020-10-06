@@ -39,6 +39,12 @@ export function scoutStart(discordMessage, args, __dirname) {
             return success;
         }
     } else {
+        if(date.hours() == 24) {
+            date.setHours(0);
+            date.setDate(date.getDate() + 1)
+        }
+
+
         start = ('0' + date.date()).slice(-2) + '-' + ('0' + (date.month()+1)).slice(-2) + ' ' + ('0' + (date.hours()+1)).slice(-2) + ':' + ('0' + (date.minutes()+1)).slice(-2);
     }
 

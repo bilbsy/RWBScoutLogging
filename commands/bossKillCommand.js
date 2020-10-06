@@ -11,8 +11,6 @@ export function bossKill(discordMessage, args, __dirname) {
         guilds = JSON.parse(file);
     }
 
-    success = viewPoints(discordMessage, args, __dirname);
-
     var rollOutput = [];
     var points = 0;
     var previousPoints = 0;
@@ -36,7 +34,7 @@ export function bossKill(discordMessage, args, __dirname) {
 
     guilds.forEach(guild => {
         var pointsZero = false;
-        success.push(scoutEnd(discordMessage, args, __dirname, guild));
+        scoutEnd(discordMessage, args, __dirname, guild);
 
         guild = guilds.find(x => x.guildCode == guild.guildCode)
 
@@ -48,9 +46,6 @@ export function bossKill(discordMessage, args, __dirname) {
                 else {
                     pointsZero = true;
                 }
-                if(guild.kazzak.summoningBonus == true){
-                    points += 4;
-                }
                 break;
             case 'azuregos':
                 if(guild.azuregos.points != "" && guild.azuregos.points != 0 && guild.azuregos.points != '0'){
@@ -59,10 +54,6 @@ export function bossKill(discordMessage, args, __dirname) {
                 else {
                     pointsZero = true;
                 }
-                if(guild.azuregos.summoningBonus == true){
-                    points += 4;
-                }
-                guild.azuregos.summoningBonus = true;
                 break;
             case 'dragons':
             case 'ysondre':
@@ -75,10 +66,6 @@ export function bossKill(discordMessage, args, __dirname) {
                 else {
                     pointsZero = true;
                 }
-                if(guild.dragons.summoningBonus == true){
-                    points += 4;
-                }
-                guild.dragons.summoningBonus = true;
                 break;
             default:
                 success.push({

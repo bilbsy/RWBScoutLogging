@@ -6,8 +6,16 @@ export function scoutLog(discordMessage, args, __dirname, guildClean) {
     var year = new Date().getFullYear();
     var datetime = args[2].split(' ');
     var date = datetime[0].split('-');
-    var firstTime = new Date(date[1] + '-' + date[0] + '-' + year + ' ' + datetime[1]);
     var guild = guildClean != undefined ? guildClean : getGuild(discordMessage.member.displayName, __dirname);
+
+    var hour = datetime[1].split(':');
+
+    if(hour[0] == 24) {
+        datetime[1] = "00:" + hour[1];
+        date[1] + 1;
+    }
+
+    var firstTime = new Date(date[1] + '-' + date[0] + '-' + year + ' ' + datetime[1]);
 
     if(guild == undefined) {
         success.push({
@@ -18,6 +26,13 @@ export function scoutLog(discordMessage, args, __dirname, guildClean) {
 
     datetime = args[3].split(' ');
     date = datetime[0].split('-');
+    hour = datetime[1].split(':');
+
+    if(hour[0] == 24) {
+        datetime[1] = "00:" + hour[1];
+        date[1] + 1;
+    }
+
     var secondTime = new Date(date[1] + '-' + date[0] + '-' + year + ' ' + datetime[1]);
 
     if (firstTime <= secondTime) {

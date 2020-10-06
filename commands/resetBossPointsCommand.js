@@ -3,12 +3,15 @@ import * as fs from 'fs';
 
 export function resetBossPoints(discordMessage, args, __dirname) {
     var guilds = [];
+    var scoutLog = [];
     var success = [];
     var file = fs.readFileSync(__dirname + '/json/guilds.txt', 'utf8');
+    var scoutLogFile = fs.readFileSync(__dirname + '/json/scoutLog.txt', 'utf8');
 
     if(file != "") {
         guilds = JSON.parse(file);
     }
+
 
     guilds.forEach(guild => {
         switch(args[1].toLowerCase().replace(' ', '')) {
@@ -41,12 +44,30 @@ export function resetBossPoints(discordMessage, args, __dirname) {
                     result: false,
                     errorMessage: 'After all this time? You get the boss name wrong... Please check the name for example Green dragons are just \'dragons\'.'
                 });
-                break;
+            break;
         }
     });
 
+    
+    if(scoutLogFile != "") {
+        scoutLog = [];
+    }
+
     const jsonString = JSON.stringify(guilds);
     fs.writeFile('./json/guilds.txt', jsonString, err => {
+        if (err) {
+            console.log('Error writing file', err);
+            success.push({
+                result: false,
+                errorMessage: 'Something went wrong uploading the file.'
+            });
+        } else {
+            console.log('Successfully wrote file')
+        }
+    });
+
+    const jsonString2 = JSON.stringify(scoutLog);
+    fs.writeFile('./json/scoutLog.txt', jsonString2, err => {
         if (err) {
             console.log('Error writing file', err);
             success.push({
