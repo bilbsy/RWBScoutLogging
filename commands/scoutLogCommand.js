@@ -12,7 +12,7 @@ export function scoutLog(discordMessage, args, __dirname, guildClean) {
 
     if(hour[0] == 24) {
         datetime[1] = "00:" + hour[1];
-        date[1] + 1;
+        date[0] =+ date[1] + 1;
     }
 
     var firstTime = new Date(date[1] + '-' + date[0] + '-' + year + ' ' + datetime[1]);
@@ -29,8 +29,8 @@ export function scoutLog(discordMessage, args, __dirname, guildClean) {
     hour = datetime[1].split(':');
 
     if(hour[0] == 24) {
-        datetime[1] = "00:" + hour[1];
-        date[1] + 1;
+        datetime[1] = "23:" + hour[1];
+        date[0] =+ date[1] + 1;
     }
 
     var secondTime = new Date(date[1] + '-' + date[0] + '-' + year + ' ' + datetime[1]);
@@ -158,7 +158,7 @@ function getPoints(firstTime, secondTime) {
             // calculates points for scouting after offPeakEndam
             points += (secondTime.getHours() - firstTime.getHours()) * ptsOnPeak;
         }
-        else if (firstTime.getHours() < offPeakStart) 
+        else if (firstTime.getHours() <= offPeakStart) 
         {
             // calculates pts for before offPeakStart am	
             points += (offPeakStart - firstTime.getHours()) * ptsOnPeak;
